@@ -1,0 +1,149 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+*
+
+{
+	font-family: Monofur Nerd Font;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+window#waybar {
+	background-color: transparent;
+    	transition-duration: .5s;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+	background-color: alpha(@background, 0.9);
+    	border-radius: 10px;
+}
+
+#cpu,
+#custom-mem,
+#custom-playerctl_prev,
+#custom-playerctl_pause,
+#custom-playerctl_next,
+#custom-sys_lock,
+#custom-sys_sleep,
+#custom-sys_exit,
+#custom-sys_reboot,
+#custom-sys_poweroff,
+#custom-util_dnd,
+#custom-util_emoji,
+#custom-util_hyprpicker,
+#custom-util_screenshot,
+#privacy,
+#temperature,
+#tray
+{
+    	color: @color5;
+}
+
+#clock {
+    	padding: 0 8px 0 8px;
+    	margin: 3px 0 3px 0;
+    	color: @background;
+    	border-radius: 10px;
+    	background-color: @color2;
+}
+#clock:hover {
+    	transition: ease 0.8s all;
+    	color: @color2;
+    	background-color: transparent;
+}
+
+#custom-network_monitor {
+	font-size: 11px;
+    	padding: 0 8px 0 8px;
+    	margin: 3px 0 3px 0;
+    	color: @background;
+    	border-radius: 10px;
+    	background-color: @color3;
+}
+#custom-network_monitor:hover {
+    	transition: ease 0.8s all;
+    	color: @color3;
+    	background-color: transparent;
+}
+
+#custom-now_playing {
+    	padding: 0 8px 0 8px;
+	margin: 3px 3px 3px 0;
+    	color: @background;
+    	border-radius: 8px;
+    	background-color: @color1;
+}
+#custom-now_playing:hover {
+	transition: ease 0.8s all;
+	color: @color5;
+	background-color: transparent;
+}
+#custom-now_playing_artist {
+    	padding: 0 2px 0 12px;
+    	color: @color5;
+}
+
+#custom-os_button {
+    	color: @background;
+    	font-size: 13px;
+    	padding: 0 12px 0 8px;
+    	margin: 3px 0 3px 3px;
+    	border-radius: 8px;
+    	background-color: @color4;
+}
+#custom-os_button:hover {
+	transition: ease 0.8s all;
+	color: @color4;
+	background-color: transparent;
+}
+
+#custom-wall {
+    	color: @background;
+    	font-size: 11px;
+    	padding: 0 12px 0 8px;
+    	margin: 3px 3px 3px 0;
+    	border-radius: 8px;
+    	background-color: @color5;
+}
+#custom-wall:hover {
+    	transition: ease 0.8s all;
+    	color: @color5;
+    	background-color: transparent;
+}
+
+#pulseaudio {
+    	padding: 0 0 0 12px;
+    	color: @color5;
+}
+
+#taskbar {
+    	padding: 0 0 0 4px;
+    	background-color: transparent;
+}
+#taskbar button {
+	padding: 0 1px 0 1px;
+}
+#taskbar button.active {
+	padding: 0 1px 0 1px;
+    	background-color: transparent;
+}
+
+#workspaces {
+    	padding: 0 6px 0 0;
+}
+#workspaces button {
+	padding: 0;
+    	background-color: transparent;
+    	color: @color5;
+}
+#workspaces button.active {
+    	color: @color3;
+}
+#workspaces button.urgent {
+	color: @color2;
+}
+#workspaces button.special {
+	color: @color4;
+}

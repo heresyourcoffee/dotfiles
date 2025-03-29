@@ -1,0 +1,81 @@
+#!/bin/sh
+
+WALLPAPER_DIR="$HOME/Pictures/walls/best"
+CURRENT_WALLPAPER="$(cat "$HOME/.cache/wal/wal")"
+
+is_image() {
+    local file_extension="${1##*.}"
+    case "$file_extension" in
+        jpg|jpeg|png|gif|webp) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+get_random_wallpaper() {
+    local random_wall
+    while true; do
+        random_wall=$(find "$HOME/Pictures/walls/" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) | shuf -n 1)
+        if [ "$random_wall" != "$CURRENT_WALLPAPER" ]; then
+            echo "$random_wall"
+            break
+        fi
+    done
+}
+
+if [ -n "$1" ]; then
+    if [ ! -f "$1" ]; then
+        notify-send "Wallpaper file '$1' not found!"
+	exit 1
+    else
+	WALL="$(realpath "$1")"
+	echo "$WALL"
+    fi
+else
+    WALL="$(echo -e "#Random\n$(ls "$WALLPAPER_DIR")\n#Delete\n#Import from clipboard" | rofi -config ~/.config/rofi/wallpaper.rasi -dmenu -replace -p " ")"    
+    if [ -n "$WALL" ]; then
+	case "$WALL" in
+        "#Random")
+            WALL=$(get_random_wallpaper)
+            ;;
+	"#Delete")
+            notify-send --app-name=Wallpaper --expire-time=2000 --icon="$CURRENT_WALLPAPER" "Wallpaper" "$CURRENT_WALLPAPER deleted !" 
+	    rm "$CURRENT_WALLPAPER"
+            WALL=$(get_random_wallpaper)
+	    ;;
+        "#Import from clipboard")
+	    CLIPBOARD_CONTENT=$(wl-paste)
+            if is_image "$CLIPBOARD_CONTENT"; then
+                WALL="$CLIPBOARD_CONTENT"
+            else
+                notify-send --app-name=Wallpaper --expire-time=1000 "Not a valid image"
+		echo "Not a valid image"
+		exit 1
+            fi
+            ;;
+        *)
+            WALL="$WALLPAPER_DIR/$WALL"
+            ;;
+        esac
+        echo "Chosen wall : $WALL"
+    else
+        echo "No wallpaper selected :( "
+        exit 1
+    fi
+fi
+
+swww img "$WALL" --transition-type grow --transition-fps 60 --transition-duration 3 --transition-bezier 0.65,0,0.35,1 --transition-pos 0.794,0.972 --transition-step 1 &
+
+wal -q -n -i "$WALL" || notify-send "Couldn't apply theme"
+
+{
+    walogram -s
+    pywalfox update
+    hyprctl reload
+    sed -i "1s|$wall = .*|$wall = $WALL|" "$HOME/.config/hypr/hyprlock.conf" || notify-send "hyprlock failed"
+    notify-send --app-name=Wallpaper --expire-time=2000 --icon="$WALL" "Wallpaper" "New wallpaper applied!" 
+    bash ~/.config/mako/update-theme.sh || echo "Failed to update mako theme"
+    bash ~/.config/waybar/scripts/reload-waybar.sh || echo "Failed to reload waybar"
+} &
+
+wait
+exit 0

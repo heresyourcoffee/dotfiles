@@ -1,0 +1,246 @@
+{
+	"mode": "dock",
+	"exclusive": "true",
+	"layer": "top",
+	"position": "top",
+	"height": 24,
+	"margin": "5px 8px -5px 8px",
+	"fixed-center": "false",
+    	"spacing": 6,
+	"modules-left": 
+	["group/powermenu","clock","tray","hyprland/workspaces"],
+	"modules-center":
+	["custom/now_playing_artist","group/playerctl"],
+	"modules-right":
+	["pulseaudio","temperature","cpu","custom/mem","privacy","custom/network_monitor","group/utils"],
+
+	"clock": {
+		"format-alt": "{:%d/%m/%Y}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>",
+		"calendar": {
+			"mode"          : "month",
+			"mode-mon-col"  : 3,
+                    	"on-scroll"     : 1,
+                    	"format": {
+				"months":     "<span color='#ffead3'><b>{}</b></span>",
+                              	"days"  :     "<span color='#ecc6d9'><b>{}</b></span>",
+                              	"weeks" :     "<span color='#99ffdd'><b>W{}</b></span>",
+                              	"weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                              	"today" :     "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+		},
+		"actions":  {
+			"on-click-right": "mode",
+                    	"on-scroll-up": "tz_up",
+                    	"on-scroll-down": "tz_down",
+                    	"on-scroll-up": "shift_up",
+                    	"on-scroll-down": "shift_down"
+		}
+	},
+
+	"cpu": {
+	  	"format": "{usage}%",
+        	"interval": 1
+	},
+
+	"custom/mem": {
+		"format": "{}MB",
+        	"interval": 3,
+        	"exec": "free -m | awk '/Mem:/ {printf \"%d\", $3}'",
+        	"tooltip": false
+	},
+
+	"custom/network_monitor": {
+		"format": "{}",
+		"exec": "~/.config/waybar/scripts/network_monitor.sh",
+        	"on-click": "network_manager",
+        	"tooltip": false
+	},
+
+	"custom/now_playing": {
+		"format": "{}",
+		"exec": "~/.config/waybar/scripts/playerctl/now_playing.sh",
+		"on-click": "~/.config/mpv/start-mpv.sh",
+		"on-click-right": "playerctl stop",
+		"on-scroll-up": "playerctl position 5+",
+		"on-scroll-down": "playerctl position 5-",
+        	"tooltip": false
+	},
+
+	"custom/now_playing_artist": {
+		"format": "{}",
+		"exec": "~/.config/waybar/scripts/playerctl/now_playing_artist.sh",
+        	"tooltip": false
+	},
+
+	"custom/playerctl_prev": {
+		"format": " 󰒮  ",
+        	"on-click": "playerctl previous",
+        	"tooltip": false
+	},
+
+	"custom/playerctl_pause": {
+        	"format": " 󱖑 ",
+        	"on-click": "playerctl play-pause",
+        	"tooltip": false
+    	},
+
+    	"custom/playerctl_next": {
+        	"format": "  󰒭  ",
+        	"on-click": "playerctl next",
+        	"tooltip": false
+    	},
+
+	"group/playerctl": {
+        	"orientation": "inherit",
+        	"drawer": {
+            		"transition-duration": 300,
+            		"transition-left-to-right": false
+        	},
+        	"modules": ["custom/now_playing","custom/playerctl_prev","custom/playerctl_pause","custom/playerctl_next"]
+    	},
+
+	"custom/sys_lock": {
+		"format": "   ",
+		"on-click": "hyprlock",
+		"tooltip-format": "lock"
+	},
+
+	"custom/sys_sleep": {
+		"format": "    ",
+		"on-click": "hyprlock & sleep 2 && systemctl sleep",
+		"tooltip-format": "sleep"
+	},
+
+	"custom/sys_exit": {
+		"format": " 󰍃  ",
+		"on-click": "hyprctl dispatch exit",
+		"tooltip-format": "exit"
+	},
+
+	"custom/sys_reboot": {
+		"format": "  ",
+		"on-click": "systemctl reboot",
+		"tooltip-format": "reboot"
+	},
+
+	"custom/sys_poweroff": {
+		"format": "   ",
+		"on-click": "systemctl poweroff",
+		"tooltip-format": "shutdown"
+	},
+
+	"group/powermenu": {
+        	"orientation": "inherit",
+        	"drawer": {
+            		"transition-duration": 500,
+            		"transition-left-to-right": true
+        	},
+        	"modules": ["custom/os_button","custom/sys_lock","custom/sys_sleep","custom/sys_exit","custom/sys_reboot","custom/sys_poweroff"]
+    	},
+
+	"custom/util_dnd": {
+		"format": "   ",
+		"format-alt": "   ",
+		"on-click": "makoctl mode -t do-not-disturb",
+		"tooltip-format": "DND"
+	},
+
+	"custom/util_emoji": {
+		"format": " 󰞅  ",
+		"on-click": "rofi -modi emoji -show emoji -config ~/.config/rofi/emoji.rasi -emoji-format '{emoji}'",
+		"tooltip-format": "Emoji"
+	},
+
+	"custom/util_hyprpicker": {
+		"format": "    ",
+		"on-click": "hyprpicker --no-fancy --quiet --autocopy",
+		"tooltip-format": "color picker"
+	},
+
+	"custom/util_screenshot": {
+		"format": " 󰆞  ",
+		"on-click": "hyprshot -m region -m VGA-1 --freeze --clipboard-only --notif-timeout 1000",
+		"tooltip-format": "Screenshot a region"
+	},
+
+	"group/utils": {
+        	"orientation": "inherit",
+        	"drawer": {
+            		"transition-duration": 500,
+            		"transition-left-to-right": false
+        	},
+        	"modules": ["custom/wall","custom/util_emoji","custom/util_screenshot","custom/util_dnd","custom/util_hyprpicker"]
+	},
+
+	"custom/os_button": {
+        	"format": "󰣇",
+        	"on-click": "rofi -show drun",
+		"on-click-right": "scratchpad -l -g",
+        	"tooltip": false
+    	},
+
+	"custom/wall": {
+        	"format": "",
+        	"on-click": "wallcoffee &",
+        	"tooltip": false
+    	},
+
+	"hyprland/workspaces": {
+        	"format": "{icon}",
+		"show-special": true,
+        	"on-scroll-up": "hyprctl dispatch workspace e-1",
+        	"on-scroll-down": "hyprctl dispatch workspace e+1",
+        	"format-icons": {"active":" ","urgent":"󰄰 ","scratchpad":" ","default":""},
+        	"persistent-workspaces": {"1": [],"2": [],"3": [],"4": [],"4": [],"5": [],"6": []}
+    	},
+
+	"privacy": {
+        	"icon-size": 10,
+        	"icon-spacing": 6,
+        	"transition-duration": 200,
+        	"modules": [
+        		{
+          			"type": "screenshare",
+          			"tooltip": true
+        		},
+        		{
+          			"type": "audio-in",
+          			"tooltip": true
+        		}	
+      		]
+    	},
+
+	"pulseaudio": {
+		"tooltip": false,
+		"scroll-step": 5,
+		"format": "{volume}󰎇",
+		"format-muted": "0󰎊",
+		"on-click":"wpctl set-mute @DEFAULT_SINK@ toggle"
+	},
+
+	"temperature": {
+        	"critical-threshold": 70,
+        	"format": "{temperatureC}°C",
+        	"tooltip": false
+    	},
+
+	"tray": {
+        	"icon-theme": "Fluent Dark",
+        	"icon-size": 10,
+        	"spacing": 6
+    	},
+
+	"wlr/taskbar": {
+    		"format": "{icon}",
+		"icon-theme": "Fluent Dark",
+    		"icon-size": 10,
+		"tooltip": true,
+    		"tooltip-format": "{title}",
+    		"sort-by-app-id": false,
+    		"on-click": "activate",
+    		"on-click-middle": "close",
+        	"all-outputs": true,
+        	"ignore-list": ["kitty"]
+  }
+}
