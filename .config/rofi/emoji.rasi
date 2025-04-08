@@ -25,7 +25,7 @@ window {
     border-color:                 transparent;
     cursor:                       "default";
     transparency:                 "real";
-    location:                     northeast;
+    location:                     center;
     anchor:                       center;
     fullscreen:                   false;
     enabled:                      true;

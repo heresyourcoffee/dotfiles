@@ -14,9 +14,12 @@ window#waybar {
 }
 
 .modules-left,
-.modules-center,
 .modules-right {
 	background-color: alpha(@background, 0.9);
+    	border-radius: 10px;
+}
+.modules-center {
+	background-color: transparent;
     	border-radius: 10px;
 }
 
@@ -25,15 +28,9 @@ window#waybar {
 #custom-playerctl_prev,
 #custom-playerctl_pause,
 #custom-playerctl_next,
-#custom-sys_lock,
-#custom-sys_sleep,
-#custom-sys_exit,
-#custom-sys_reboot,
-#custom-sys_poweroff,
+#custom-powermenu,
 #custom-util_dnd,
-#custom-util_emoji,
 #custom-util_hyprpicker,
-#custom-util_screenshot,
 #privacy,
 #temperature,
 #tray
@@ -101,7 +98,7 @@ window#waybar {
 
 #custom-wall {
     	color: @background;
-    	font-size: 11px;
+	font-size: 11px;
     	padding: 0 12px 0 8px;
     	margin: 3px 3px 3px 0;
     	border-radius: 8px;

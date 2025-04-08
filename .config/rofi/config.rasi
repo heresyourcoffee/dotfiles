@@ -3,7 +3,7 @@
 configuration {
     modi:                       "drun,run";
     font:                       "Monofur Nerd Font Bold 10";
-    show-icons:                 true;
+    show-icons:                 false;
     icon-theme:                 "Fluent Dark";
     display-drun:               " ";
     display-run:                " ";
@@ -18,17 +18,17 @@ configuration {
 }
 
 window {
-    width:                        220px;
-    x-offset:                     10px;
-    y-offset:                     10px;
+    width:                        280px;
+    x-offset:                     0px;
+    y-offset:                     0px;
     spacing:                      0px;
-    padding:                      8px;
+    padding:                      10px;
     margin:                       0px; 
     border:                       0px;
     border-color:                 transparent;
     cursor:                       "default";
     transparency:                 "real";
-    location:                     northwest;
+    location:                     center;
     anchor:                       center;
     fullscreen:                   false;
     enabled:                      true;

@@ -8,9 +8,9 @@
 	"fixed-center": "false",
     	"spacing": 6,
 	"modules-left": 
-	["group/powermenu","clock","tray","hyprland/workspaces"],
+	["group/left","clock","tray","hyprland/workspaces"],
 	"modules-center":
-	["custom/now_playing_artist","group/playerctl"],
+	[],
 	"modules-right":
 	["pulseaudio","temperature","cpu","custom/mem","privacy","custom/network_monitor","group/utils"],
 
@@ -57,132 +57,17 @@
         	"tooltip": false
 	},
 
-	"custom/now_playing": {
-		"format": "{}",
-		"exec": "~/.config/waybar/scripts/playerctl/now_playing.sh",
-		"on-click": "~/.config/mpv/start-mpv.sh",
-		"on-click-right": "playerctl stop",
-		"on-scroll-up": "playerctl position 5+",
-		"on-scroll-down": "playerctl position 5-",
-        	"tooltip": false
-	},
-
-	"custom/now_playing_artist": {
-		"format": "{}",
-		"exec": "~/.config/waybar/scripts/playerctl/now_playing_artist.sh",
-        	"tooltip": false
-	},
-
-	"custom/playerctl_prev": {
-		"format": " 󰒮  ",
-        	"on-click": "playerctl previous",
-        	"tooltip": false
-	},
-
-	"custom/playerctl_pause": {
-        	"format": " 󱖑 ",
-        	"on-click": "playerctl play-pause",
-        	"tooltip": false
-    	},
-
-    	"custom/playerctl_next": {
-        	"format": "  󰒭  ",
-        	"on-click": "playerctl next",
-        	"tooltip": false
-    	},
-
-	"group/playerctl": {
-        	"orientation": "inherit",
-        	"drawer": {
-            		"transition-duration": 300,
-            		"transition-left-to-right": false
-        	},
-        	"modules": ["custom/now_playing","custom/playerctl_prev","custom/playerctl_pause","custom/playerctl_next"]
-    	},
-
-	"custom/sys_lock": {
-		"format": "   ",
-		"on-click": "hyprlock",
-		"tooltip-format": "lock"
-	},
-
-	"custom/sys_sleep": {
-		"format": "    ",
-		"on-click": "hyprlock & sleep 2 && systemctl sleep",
-		"tooltip-format": "sleep"
-	},
-
-	"custom/sys_exit": {
-		"format": " 󰍃  ",
-		"on-click": "hyprctl dispatch exit",
-		"tooltip-format": "exit"
-	},
-
-	"custom/sys_reboot": {
-		"format": "  ",
-		"on-click": "systemctl reboot",
-		"tooltip-format": "reboot"
-	},
-
-	"custom/sys_poweroff": {
-		"format": "   ",
-		"on-click": "systemctl poweroff",
-		"tooltip-format": "shutdown"
-	},
-
-	"group/powermenu": {
-        	"orientation": "inherit",
-        	"drawer": {
-            		"transition-duration": 500,
-            		"transition-left-to-right": true
-        	},
-        	"modules": ["custom/os_button","custom/sys_lock","custom/sys_sleep","custom/sys_exit","custom/sys_reboot","custom/sys_poweroff"]
-    	},
-
-	"custom/util_dnd": {
-		"format": "   ",
-		"format-alt": "   ",
-		"on-click": "makoctl mode -t do-not-disturb",
-		"tooltip-format": "DND"
-	},
-
-	"custom/util_emoji": {
-		"format": " 󰞅  ",
-		"on-click": "rofi -modi emoji -show emoji -config ~/.config/rofi/emoji.rasi -emoji-format '{emoji}'",
-		"tooltip-format": "Emoji"
-	},
-
-	"custom/util_hyprpicker": {
-		"format": "    ",
-		"on-click": "hyprpicker --no-fancy --quiet --autocopy",
-		"tooltip-format": "color picker"
-	},
-
-	"custom/util_screenshot": {
-		"format": " 󰆞  ",
-		"on-click": "hyprshot -m region -m VGA-1 --freeze --clipboard-only --notif-timeout 1000",
-		"tooltip-format": "Screenshot a region"
-	},
-
-	"group/utils": {
-        	"orientation": "inherit",
-        	"drawer": {
-            		"transition-duration": 500,
-            		"transition-left-to-right": false
-        	},
-        	"modules": ["custom/wall","custom/util_emoji","custom/util_screenshot","custom/util_dnd","custom/util_hyprpicker"]
-	},
-
 	"custom/os_button": {
         	"format": "󰣇",
-        	"on-click": "rofi -show drun",
-		"on-click-right": "scratchpad -l -g",
+        	"on-click": "hyprctl dispatch -- exec rofi -show drun",
+		"on-click-right": "hyprctl dispatch -- exec scratchpad -l -g",
         	"tooltip": false
     	},
 
 	"custom/wall": {
-        	"format": "",
-        	"on-click": "wallcoffee &",
+		"format": "",
+        	"on-click": "hyprctl dispatch exec wallcoffee",
+		"on-click-right": "hyprctl dispatch -- exec wallcoffee random",
         	"tooltip": false
     	},
 
@@ -191,7 +76,7 @@
 		"show-special": true,
         	"on-scroll-up": "hyprctl dispatch workspace e-1",
         	"on-scroll-down": "hyprctl dispatch workspace e+1",
-        	"format-icons": {"active":" ","urgent":"󰄰 ","scratchpad":" ","default":""},
+        	"format-icons": {"active":" ","urgent":" ","scratchpad":"󱓼 ","default":""},
         	"persistent-workspaces": {"1": [],"2": [],"3": [],"4": [],"4": [],"5": [],"6": []}
     	},
 
@@ -242,5 +127,87 @@
     		"on-click-middle": "close",
         	"all-outputs": true,
         	"ignore-list": ["kitty"]
-  }
+  	},
+
+	"custom/powermenu": {
+		"format": "    ",
+		"on-click": "~/.scripts/powermenu.sh",
+		"tooltip-format": "powermenu"
+	},
+
+	"group/left": {
+        	"orientation": "inherit",
+        	"drawer": {
+            		"transition-duration": 500,
+            		"transition-left-to-right": true
+        	},
+        	"modules": ["custom/os_button","custom/powermenu"]
+    	},
+
+	"custom/now_playing": {
+		"format": "{}",
+		"exec": "~/.config/waybar/scripts/playerctl/now_playing.sh",
+		"on-click": "playerctl metadata xesam:url | wl-copy",
+		"on-click-right": "playerctl stop",
+		"on-scroll-up": "playerctl position 10+",
+		"on-scroll-down": "playerctl position 10-",
+        	"tooltip": false
+	},
+
+	"custom/now_playing_artist": {
+		"format": "{}",
+		"exec": "~/.config/waybar/scripts/playerctl/now_playing_artist.sh",
+        	"tooltip": false
+	},
+
+	"custom/playerctl_prev": {
+		"format": " 󰒮 ",
+        	"on-click": "playerctl previous",
+        	"tooltip": false
+	},
+
+	"custom/playerctl_pause": {
+        	"format": "  󱖑  ",
+        	"on-click": "playerctl play-pause",
+        	"tooltip": false
+    	},
+
+    	"custom/playerctl_next": {
+        	"format": " 󰒭  ",
+        	"on-click": "playerctl next",
+        	"tooltip": false
+    	},
+
+	"group/playerctl": {
+        	"orientation": "inherit",
+        	"drawer": {
+            		"transition-duration": 300,
+            		"transition-left-to-right": false
+        	},
+        	"modules": ["custom/now_playing","custom/playerctl_prev","custom/playerctl_pause","custom/playerctl_next"]
+    	},
+
+	"custom/util_dnd": {
+		"format": " {}   ",
+		"interval": "once",
+        	"exec": "if [[ \"$(dunstctl is-paused)\" == \"false\" ]]; then echo ''; else echo ''; fi",
+        	"on-click": "dunstctl set-paused toggle; pkill -SIGRTMIN+1 waybar",
+        	"signal": 1,
+		"tooltip-format": "DND"
+	},
+
+	"custom/util_hyprpicker": {
+		"format": "   ",
+		"on-click": "hyprpicker --no-fancy --quiet --autocopy",
+		"tooltip-format": "color picker"
+	},
+
+	"group/utils": {
+        	"orientation": "inherit",
+        	"drawer": {
+            		"transition-duration": 500,
+            		"transition-left-to-right": false
+        	},
+        	"modules": ["custom/wall","custom/util_hyprpicker","custom/util_dnd"]
+	}
 }

@@ -14,6 +14,4 @@ while true; do
     TX_RATE=$(( (TX_NEW - TX) / 1024 ))
 
     echo -e "󱦳$RX_RATE 󱦲$TX_RATE"
-
-    sleep 1
 done

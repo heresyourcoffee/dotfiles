@@ -1,8 +1,9 @@
 #!/bin/sh
+
 if pgrep -x "waybar" > /dev/null; then
-    killall playerctl
+#    killall playerctl
     killall -SIGUSR2 waybar
 else
-    killall playerctl
+#    killall playerctl
     waybar &
 fi
