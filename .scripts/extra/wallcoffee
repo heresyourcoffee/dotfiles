@@ -59,7 +59,7 @@ else
     fi
 fi
 
-wal -q -n -i "$WALL" || notify-send "Couldn't apply theme" && swww img "$WALL" --transition-type grow --transition-fps 60 --transition-duration 1.2 --transition-bezier 0.65,0,0.35,1 --transition-pos 0.794,0.972 --transition-step 1
+wal -q -n -i "$WALL" || notify-send "Couldn't apply theme" && swww img "$WALL" --transition-type grow --transition-fps 60 --transition-duration 0.5 --transition-bezier 0.65,0,0.35,1 --transition-pos 0.794,0.972 --transition-step 1
 
 {
     hyprctl reload

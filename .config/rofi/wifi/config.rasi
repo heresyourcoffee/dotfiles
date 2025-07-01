@@ -1,4 +1,0 @@
-@theme "pywal.rasi"
-	configuration {
-	terminal: "kitty";
-	}

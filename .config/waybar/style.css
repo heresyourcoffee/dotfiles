@@ -14,12 +14,9 @@ window#waybar {
 }
 
 .modules-left,
+.modules-center,
 .modules-right {
 	background-color: alpha(@background, 0.9);
-    	border-radius: 10px;
-}
-.modules-center {
-	background-color: transparent;
     	border-radius: 10px;
 }
 
@@ -28,6 +25,7 @@ window#waybar {
 #custom-playerctl_prev,
 #custom-playerctl_pause,
 #custom-playerctl_next,
+#custom-hyprsunset,
 #custom-powermenu,
 #custom-util_dnd,
 #custom-util_hyprpicker,

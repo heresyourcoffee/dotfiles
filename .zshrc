@@ -95,7 +95,7 @@ figlett() {
   output=$(printf '```\n%s\n```\n' "$(figlet "$@")")
   echo "$output"
   echo "$output" | wl-copy
-  echo "✓ Copied to clipboard!"
+  echo "Copied to clipboard!"
 }
 
 ############
@@ -115,3 +115,9 @@ alias f='clear && fetch'
 alias ytm='yt-dlp -x --audio-format opus --audio-quality 0 --embed-thumbnail --add-metadata -o "~/Music/download/%(title)s.%(ext)s"'
 
 # (cat ~/.cache/wal/sequences &)
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /home/adi/.dart-cli-completion/zsh-config.zsh ]] && . /home/adi/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+

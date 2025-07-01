@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
-[manager]
+[mgr]
 ratio          = [ 1, 3, 5 ]
 sort_by        = "alphabetical"
 sort_sensitive = false
@@ -48,17 +48,16 @@ reveal = [
 	{ run = 'termux-open "$(dirname "$1")"',        desc = "Reveal", for = "android" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
 ]
-extract = [
-	{ run = 'unzip "$@" ', desc = "Unzip", for = "unix" },
-	{ run = 'ya pub extract --list %*',   desc = "Extract here", for = "windows" },
-]
 play = [
 	{ run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
 	{ run = 'mpv --force-window %*', orphan = true, for = "windows" },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
 wallcoffee = [
-	{ run = 'wallcoffee "$@"', desc = "Wallpaper", for = "linux" },
+    { run = '''hyprctl dispatch -- exec "wallcoffee '$@'"''', desc = "Wallpaper", for = "linux" },
+]
+zen = [
+	{ run = 'hyprctl dispatch -- exec zen-browser --new-tab "file://$(printf "%q" "$@")"', desc = "Open in zen", for = "linux" },
 ]
 
 [open]
@@ -68,11 +67,11 @@ rules = [
 	# Text
 	{ mime = "text/*", use = [ "edit", "reveal" ] },
 	# Image
-	{ mime = "image/*", use = [ "open", "wallcoffee", "reveal" ] },
+	{ mime = "image/*", use = [ "open", "wallcoffee", "zen", "reveal" ] },
 	# Media
-	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+	{ mime = "{audio,video}/*", use = [ "play", "zen", "reveal" ] },
 	# Archive
-	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = [ "extract", "reveal" ] },
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = [ "open" ] },
 	# JSON
 	{ mime = "application/{json,ndjson}", use = [ "edit", "reveal" ] },
 	{ mime = "*/javascript", use = [ "edit", "reveal" ] },

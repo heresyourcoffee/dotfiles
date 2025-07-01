@@ -10,7 +10,7 @@
 	"modules-left": 
 	["group/left","clock","tray","hyprland/workspaces"],
 	"modules-center":
-	[],
+	["custom/now_playing_artist","group/playerctl"],
 	"modules-right":
 	["pulseaudio","temperature","cpu","custom/mem","privacy","custom/network_monitor","group/utils"],
 
@@ -53,7 +53,7 @@
 	"custom/network_monitor": {
 		"format": "{}",
 		"exec": "~/.config/waybar/scripts/network_monitor.sh",
-        	"on-click": "network_manager",
+        	"on-click": "kitty -e nmtui",
         	"tooltip": false
 	},
 
@@ -76,7 +76,7 @@
 		"show-special": true,
         	"on-scroll-up": "hyprctl dispatch workspace e-1",
         	"on-scroll-down": "hyprctl dispatch workspace e+1",
-        	"format-icons": {"active":" ","urgent":" ","scratchpad":"󱓼 ","default":""},
+        	"format-icons": {"active":" ","urgent":" ","scratchpad":"󰸶 ","default":""},
         	"persistent-workspaces": {"1": [],"2": [],"3": [],"4": [],"4": [],"5": [],"6": []}
     	},
 
@@ -129,6 +129,13 @@
         	"ignore-list": ["kitty"]
   	},
 
+	"custom/hyprsunset": {
+		"format": "   ",
+		"on-click": "~/.scripts/hyprsunset.sh",
+		"on-click-right": "pkill hyprsunset",
+		"tooltip-format": "hyprsunset"
+	},
+
 	"custom/powermenu": {
 		"format": "    ",
 		"on-click": "~/.scripts/powermenu.sh",
@@ -141,13 +148,13 @@
             		"transition-duration": 500,
             		"transition-left-to-right": true
         	},
-        	"modules": ["custom/os_button","custom/powermenu"]
+        	"modules": ["custom/os_button","custom/powermenu","custom/hyprsunset"]
     	},
 
 	"custom/now_playing": {
 		"format": "{}",
 		"exec": "~/.config/waybar/scripts/playerctl/now_playing.sh",
-		"on-click": "playerctl metadata xesam:url | wl-copy",
+        	"on-click": "playerctl play-pause",
 		"on-click-right": "playerctl stop",
 		"on-scroll-up": "playerctl position 10+",
 		"on-scroll-down": "playerctl position 10-",
@@ -167,8 +174,11 @@
 	},
 
 	"custom/playerctl_pause": {
-        	"format": "  󱖑  ",
-        	"on-click": "playerctl play-pause",
+        	"format": "  {}  ",
+		"interval": "once",
+        	"exec": "if [[ \"$(playerctl status)\" == \"Playing\" ]]; then echo ''; else echo ''; fi",
+        	"on-click": "playerctl play-pause; pkill -SIGRTMIN+1 waybar",
+        	"signal": 1,
         	"tooltip": false
     	},
 
@@ -192,6 +202,7 @@
 		"interval": "once",
         	"exec": "if [[ \"$(dunstctl is-paused)\" == \"false\" ]]; then echo ''; else echo ''; fi",
         	"on-click": "dunstctl set-paused toggle; pkill -SIGRTMIN+1 waybar",
+        	"on-click-right": "kitty -e ~/.scripts/dunst-history.sh",
         	"signal": 1,
 		"tooltip-format": "DND"
 	},
